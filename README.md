@@ -1,7 +1,9 @@
 # wow-discord-bot
+
 A TypeScript Discord bot for WoW guilds
 
 # environment variables
+
 To run the bot, you need a `.env` file with the following contents:
 
 ```

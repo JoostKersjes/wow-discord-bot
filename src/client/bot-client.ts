@@ -1,7 +1,7 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { join } from 'path';
 
-declare module "discord-akairo" {
+declare module 'discord-akairo' {
   interface AkairoClient {
     commandHandler: CommandHandler;
     listenerHandler: ListenerHandler;
@@ -21,7 +21,7 @@ export class BotClient extends AkairoClient {
 
   constructor(config: BotOptions) {
     super({
-      ownerID: config.owners
+      ownerID: config.owners,
     });
 
     this.config = config;
@@ -33,7 +33,7 @@ export class BotClient extends AkairoClient {
       commandUtil: true,
       commandUtilLifetime: 3e5,
       defaultCooldown: 6e4,
-      ignorePermissions: config?.owners
+      ignorePermissions: config?.owners,
     });
 
     this.listenerHandler = new ListenerHandler(this, {
@@ -51,7 +51,7 @@ export class BotClient extends AkairoClient {
     this.listenerHandler.setEmitters({
       commandHandler: this.commandHandler,
       listenerHandler: this.listenerHandler,
-      process
+      process,
     });
 
     this.commandHandler.loadAll();

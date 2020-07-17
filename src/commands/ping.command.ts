@@ -9,10 +9,8 @@ export default class PingCommand extends Command {
       description: {
         content: 'Check the latency to the Discord API',
         usage: 'ping',
-        examples: [
-          'ping'
-        ],
-      }
+        examples: ['ping'],
+      },
     });
   }
 
