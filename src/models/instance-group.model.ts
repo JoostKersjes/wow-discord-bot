@@ -1,25 +1,31 @@
 import { GroupMember } from './group-member.model';
 import { User } from 'discord.js';
 import { InstanceRole } from './instance-role.model';
+import { Type } from 'class-transformer';
 
 export class InstanceGroup {
+  @Type(() => GroupMember)
   members: GroupMember[];
 
   static newKeystoneGroup(leaderUser: User, leaderRole: InstanceRole): InstanceGroup {
-    const leader = GroupMember.withData(leaderRole, leaderUser, true);
+    const leader = GroupMember.withData(leaderRole, leaderUser.id, true);
 
     return this.emptyKeystoneGroup(leader);
   }
 
   signUp(user: User, role: InstanceRole): void {
-    const member = GroupMember.withData(role, user, false);
+    const member = GroupMember.withData(role, user.id, false);
 
     this.placeMemberIntoGroup(member);
   }
 
+  getLeader(): GroupMember {
+    return this.members.find(member => member.leader);
+  }
+
   private placeMemberIntoGroup(member: GroupMember): void {
     const emptySlotIndex = this.members.findIndex(
-      item => item.user === null && member.instanceRole.name === item.instanceRole.name,
+      item => item.userId === null && member.instanceRole.name === item.instanceRole.name,
     );
 
     if (-1 === emptySlotIndex) {
@@ -29,7 +35,7 @@ export class InstanceGroup {
     this.members[emptySlotIndex] = member;
   }
 
-  private constructor(members: GroupMember[]) {
+  constructor(members: GroupMember[]) {
     this.members = members;
   }
 

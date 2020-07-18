@@ -11,5 +11,7 @@ export default class ReadyListener extends Listener {
 
   exec(): void {
     console.log(`${this.client.user.tag} is now online`);
+
+    // TODO: Load messages since last reset into cache
   }
 }

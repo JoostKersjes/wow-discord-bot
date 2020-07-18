@@ -19,9 +19,12 @@
   },
   "homepage": "https://github.com/JoostKersjes/wow-discord-bot#readme",
   "dependencies": {
+    "class-transformer": "^0.2.3",
+    "date-fns": "^2.15.0",
     "discord-akairo": "^8.0.0",
     "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/node": "^14.0.23",

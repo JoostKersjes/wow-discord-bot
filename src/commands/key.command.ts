@@ -46,18 +46,15 @@ export default class KeyCommand extends Command {
     const messagePromise = message.util.send(null, keystone.buildMessage());
 
     messagePromise.then(async (response: Message) => {
-      const emptySlots = keystone.group.members.filter(
-        (member, index, array) => null === member.user && array.indexOf(member) === index,
-      );
+      keystone.messageId = response.id;
+      keystone.saveAsFile();
 
-      emptySlots.forEach(member => {
-        response.react(member.instanceRole.emoji);
+      keystone.getAvailableRoles().forEach(role => {
+        response.react(role.emoji);
       });
 
       await response.react('❌');
     });
-
-    return messagePromise;
   }
 
   private findDungeon(dungeonArgument: string): Dungeon {
@@ -67,7 +64,7 @@ export default class KeyCommand extends Command {
   }
 
   private validateKeystoneLevel(levelArgument: number): number | null {
-    return isNaN(levelArgument) || levelArgument >= 40 ? null : levelArgument;
+    return isNaN(levelArgument) || levelArgument >= 40 ? null : Math.max(2, levelArgument);
   }
 
   private findRole(roleArgument: string): InstanceRole {

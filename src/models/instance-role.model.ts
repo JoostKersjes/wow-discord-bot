@@ -1,7 +1,11 @@
 import { InstanceRoles } from './types';
-import { EmojiResolvable } from 'discord.js';
 
 export class InstanceRole {
+  readonly name: string;
+  readonly emoji: string;
+  readonly aliases: string[];
+  readonly color: string;
+
   static byRole(role: InstanceRoles): InstanceRole {
     switch (role) {
       case 'tank':
@@ -17,25 +21,29 @@ export class InstanceRole {
   static byAlias(alias: string): InstanceRole {
     const roles: InstanceRole[] = [this.tank(), this.healer(), this.damage()];
 
-    return roles.find(role => role.aliases.includes(alias));
+    return roles.find(role => role.hasAlias(alias));
   }
 
-  private constructor(
-    readonly name: string,
-    readonly emoji: EmojiResolvable,
-    readonly aliases: string[],
-    readonly color: string,
-  ) {}
+  hasAlias(alias: string) {
+    return this.aliases.includes(alias);
+  }
+
+  constructor(name: string, emoji: string, aliases: string[], color: string) {
+    this.name = name;
+    this.emoji = emoji;
+    this.aliases = aliases;
+    this.color = color;
+  }
 
   private static tank(): InstanceRole {
-    return new this('Tank', '🛡️', ['t', 'tank', 'shield'], '#021b4f');
+    return new this('Tank', '🛡️', ['🛡️', 't', 'tank', 'shield'], '#021b4f');
   }
 
   private static healer(): InstanceRole {
-    return new this('Healer', '💚', ['h', 'healer', 'heal'], '#08604e');
+    return new this('Healer', '💚', ['💚', 'h', 'healer', 'heal'], '#08604e');
   }
 
   private static damage(): InstanceRole {
-    return new this('Damage', '⚔️', ['d', 'damage', 'dps', 'ranged', 'melee'], '#6b100d');
+    return new this('Damage', '⚔️', ['⚔️', 'd', 'damage', 'dps', 'ranged', 'melee'], '#6b100d');
   }
 }

@@ -3,7 +3,7 @@ export class Dungeon {
     return this.battleForAzeroth();
   }
 
-  private constructor(readonly name: string, readonly aliases: string[], readonly image: string) {}
+  constructor(readonly name: string, readonly aliases: string[], readonly image: string) {}
 
   private static battleForAzeroth(): Dungeon[] {
     return [

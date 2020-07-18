@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { BotClient } from './client';
 
 require('dotenv').config();
