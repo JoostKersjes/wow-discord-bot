@@ -3,6 +3,7 @@ import { User } from 'discord.js';
 import { MessageReaction } from 'discord.js';
 import { isAfter, subDays, startOfWeek } from 'date-fns';
 import { Keystone } from '../models';
+import { Message } from 'discord.js';
 
 export default class KeystoneReactionListener extends Listener {
   constructor() {
@@ -19,7 +20,7 @@ export default class KeystoneReactionListener extends Listener {
     }
 
     if (this.isKeystoneMessage(reaction)) {
-      this.handleKeystoneReaction(reaction, user);
+      return this.handleKeystoneReaction(reaction, user);
     }
 
     reaction.users.remove(user);
@@ -29,29 +30,49 @@ export default class KeystoneReactionListener extends Listener {
     const { message } = reaction;
     const emoji = reaction.emoji.toString();
 
-    const keystone = Keystone.getFromFile(message.id);
+    const keystone = Keystone.getFromFile(message);
     if (!keystone) {
       return;
     }
 
     if (emoji === '❌' && keystone.group.members.some(member => member.userId === user.id)) {
       if (keystone.group.getLeader().userId === user.id) {
-        keystone.delete();
+        this.deleteKeystone(message, keystone);
+
+        return;
       }
+
+      keystone.group.cancelSignUp(user);
     }
 
     const selectedRole = keystone.getAvailableRoles().find(role => role.hasAlias(emoji));
     if (selectedRole) {
-      keystone.group.signUp(user, selectedRole);
+      const previousRole = keystone.group.members.find(member => member.userId === user.id)
+        ?.instanceRole;
 
-      message.edit(null, keystone.buildMessage());
+      if (previousRole) {
+        keystone.group.changeRole(user, selectedRole);
+
+        message.react(previousRole.emoji);
+      } else {
+        keystone.group.signUp(user, selectedRole);
+      }
 
       if (!keystone.getAvailableRoles().some(role => role.hasAlias(emoji))) {
         reaction.remove();
       }
     }
 
-    keystone.saveAsFile();
+    message.edit(null, keystone.buildMessage());
+
+    keystone.saveAsFile(message);
+
+    reaction.users.remove(user);
+  }
+
+  private deleteKeystone(message: Message, keystone: Keystone) {
+    message.delete();
+    keystone.deleteSaveFile(message);
   }
 
   private skipEvent(reaction: MessageReaction, user: User): boolean {

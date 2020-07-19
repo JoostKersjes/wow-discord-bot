@@ -18,6 +18,10 @@ export class InstanceRole {
     }
   }
 
+  static list(): InstanceRole[] {
+    return [this.tank(), this.healer(), this.damage()];
+  }
+
   static byAlias(alias: string): InstanceRole {
     const roles: InstanceRole[] = [this.tank(), this.healer(), this.damage()];
 
@@ -25,7 +29,7 @@ export class InstanceRole {
   }
 
   hasAlias(alias: string) {
-    return this.aliases.includes(alias);
+    return this.aliases.includes(alias.toLowerCase());
   }
 
   constructor(name: string, emoji: string, aliases: string[], color: string) {
@@ -36,14 +40,14 @@ export class InstanceRole {
   }
 
   private static tank(): InstanceRole {
-    return new this('Tank', '🛡️', ['🛡️', 't', 'tank', 'shield'], '#021b4f');
+    return new this('tank', '🛡️', ['🛡️', 't', 'tank', 'shield'], '#021b4f');
   }
 
   private static healer(): InstanceRole {
-    return new this('Healer', '💚', ['💚', 'h', 'healer', 'heal'], '#08604e');
+    return new this('healer', '💚', ['💚', 'h', 'healer', 'heal'], '#08604e');
   }
 
   private static damage(): InstanceRole {
-    return new this('Damage', '⚔️', ['⚔️', 'd', 'damage', 'dps', 'ranged', 'melee'], '#6b100d');
+    return new this('damage', '⚔️', ['⚔️', 'd', 'damage', 'dps', 'ranged', 'melee'], '#6b100d');
   }
 }

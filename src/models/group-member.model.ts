@@ -1,5 +1,4 @@
 import { InstanceRole } from './instance-role.model';
-import { InstanceRoles } from './types';
 import { Type } from 'class-transformer';
 
 export class GroupMember {
@@ -14,8 +13,8 @@ export class GroupMember {
     return new this(role, userId, leader);
   }
 
-  static emptySlots(role: InstanceRoles, amount: number): GroupMember[] {
-    return new Array(amount).fill(new this(InstanceRole.byRole(role)));
+  static emptySlots(role: InstanceRole, amount: number): GroupMember[] {
+    return new Array(amount).fill(new this(role));
   }
 
   constructor(instanceRole: InstanceRole, userId: string | null = null, leader: boolean = false) {

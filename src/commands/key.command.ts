@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { Keystone, Dungeon, InstanceRole } from '../models';
 
-const args = [
+const allowedArguments = [
   { id: 'dungeon', type: 'string' },
   { id: 'level', type: 'number' },
   { id: 'role', type: 'string', default: 'dps' },
@@ -12,7 +12,7 @@ export default class KeyCommand extends Command {
   constructor() {
     super('key', {
       aliases: ['key', 'm+', 'keystone'],
-      args: args,
+      args: allowedArguments,
       category: 'Public Commands',
       description: {
         content: 'Create a new M+ Keystone event',
@@ -23,6 +23,8 @@ export default class KeyCommand extends Command {
   }
 
   exec(message: Message, args: any) {
+    // TODO: Check if user already has an active key
+
     const dungeon = this.findDungeon(args.dungeon);
 
     if (!dungeon) {
@@ -47,7 +49,7 @@ export default class KeyCommand extends Command {
 
     messagePromise.then(async (response: Message) => {
       keystone.messageId = response.id;
-      keystone.saveAsFile();
+      keystone.saveAsFile(response);
 
       keystone.getAvailableRoles().forEach(role => {
         response.react(role.emoji);
@@ -57,14 +59,20 @@ export default class KeyCommand extends Command {
     });
   }
 
-  private findDungeon(dungeonArgument: string): Dungeon {
-    return Dungeon.currentKeystoneDungeons().find(dungeon =>
-      dungeon.aliases.includes(dungeonArgument),
-    );
+  private findDungeon(dungeonArgument: string | null): Dungeon | null {
+    if (null === dungeonArgument) {
+      return null;
+    }
+
+    return Dungeon.currentKeystoneDungeons().find(dungeon => dungeon.hasAlias(dungeonArgument));
   }
 
-  private validateKeystoneLevel(levelArgument: number): number | null {
-    return isNaN(levelArgument) || levelArgument >= 40 ? null : Math.max(2, levelArgument);
+  private validateKeystoneLevel(levelArgument: number | null): number | null {
+    if (levelArgument === null) {
+      return null;
+    }
+
+    return levelArgument >= 35 ? null : Math.max(2, levelArgument);
   }
 
   private findRole(roleArgument: string): InstanceRole {
@@ -76,10 +84,13 @@ export default class KeyCommand extends Command {
     argumentKey: string,
     argumentValue: string | number | null,
   ) {
-    const argument = args.find(arg => arg.id === argumentKey);
+    const argument = allowedArguments.find(arg => arg.id === argumentKey);
 
-    return message.util.send(
-      `Argument \`${argument?.id}\` has an invalid value: \`${argumentValue}\``,
-    );
+    let response = `Argument \`${argument?.id}\` has an invalid value`;
+    if (argumentValue !== null) {
+      response += `: \`${argumentValue}\``;
+    }
+
+    return message.util.send(response);
   }
 }

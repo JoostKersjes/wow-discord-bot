@@ -1,7 +1,8 @@
-import { GroupMember } from './group-member.model';
-import { User } from 'discord.js';
-import { InstanceRole } from './instance-role.model';
 import { Type } from 'class-transformer';
+import { User } from 'discord.js';
+
+import { GroupMember } from './group-member.model';
+import { InstanceRole } from './instance-role.model';
 
 export class InstanceGroup {
   @Type(() => GroupMember)
@@ -16,6 +17,21 @@ export class InstanceGroup {
   signUp(user: User, role: InstanceRole): void {
     const member = GroupMember.withData(role, user.id, false);
 
+    this.placeMemberIntoGroup(member);
+  }
+
+  cancelSignUp(user: User): void {
+    const index = this.members.findIndex(member => member.userId === user.id);
+    const role = this.members[index].instanceRole;
+
+    this.members.splice(index, 1, ...GroupMember.emptySlots(role, 1));
+  }
+
+  changeRole(user: User, role: InstanceRole) {
+    const leaderFlag = this.members.find(member => member.userId === user.id)?.leader || false;
+    const member = GroupMember.withData(role, user.id, leaderFlag);
+
+    this.cancelSignUp(user);
     this.placeMemberIntoGroup(member);
   }
 
@@ -41,9 +57,9 @@ export class InstanceGroup {
 
   private static emptyKeystoneGroup(leader: GroupMember): InstanceGroup {
     const members = [
-      ...GroupMember.emptySlots('tank', 1),
-      ...GroupMember.emptySlots('healer', 1),
-      ...GroupMember.emptySlots('damage', 3),
+      ...GroupMember.emptySlots(InstanceRole.byRole('tank'), 1),
+      ...GroupMember.emptySlots(InstanceRole.byRole('healer'), 1),
+      ...GroupMember.emptySlots(InstanceRole.byRole('damage'), 3),
     ];
 
     const roleIndex = members.findIndex(
