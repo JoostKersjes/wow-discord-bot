@@ -12,6 +12,8 @@ export default class HelpCommand extends Command {
         examples: ['help'],
       },
       prefix: '!',
+      cooldown: 10000,
+      ratelimit: 3,
     });
   }
 
