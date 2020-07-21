@@ -3,7 +3,6 @@ import { User } from 'discord.js';
 import { MessageReaction } from 'discord.js';
 import { isAfter, subDays, startOfWeek } from 'date-fns';
 import { Keystone } from '../models';
-import { Message } from 'discord.js';
 
 export default class KeystoneReactionListener extends Listener {
   constructor() {
@@ -36,13 +35,11 @@ export default class KeystoneReactionListener extends Listener {
     }
 
     if (emoji === '❌' && keystone.group.members.some(member => member.userId === user.id)) {
-      if (keystone.group.getLeader().userId === user.id) {
-        this.deleteKeystone(message, keystone);
+      if (keystone.group.getLeader().userId !== user.id) {
+        const role = keystone.group.cancelSignUp(user);
 
-        return;
+        message.react(role.emoji);
       }
-
-      keystone.group.cancelSignUp(user);
     }
 
     const selectedRole = keystone.getAvailableRoles().find(role => role.hasAlias(emoji));
@@ -68,11 +65,10 @@ export default class KeystoneReactionListener extends Listener {
     keystone.saveAsFile(message);
 
     reaction.users.remove(user);
-  }
 
-  private deleteKeystone(message: Message, keystone: Keystone) {
-    message.delete();
-    keystone.deleteSaveFile(message);
+    if (emoji === '🗑️' && keystone.group.getLeader().userId === user.id) {
+      message.delete();
+    }
   }
 
   private skipEvent(reaction: MessageReaction, user: User): boolean {
@@ -92,13 +88,13 @@ export default class KeystoneReactionListener extends Listener {
   private lastResetDate(): Date {
     const currentDate = new Date();
 
-    const tuesday = startOfWeek(currentDate, { weekStartsOn: 2 });
-    tuesday.setHours(9);
+    const wednesday = startOfWeek(currentDate, { weekStartsOn: 3 });
+    wednesday.setHours(9);
 
-    if (isAfter(currentDate, tuesday)) {
-      return tuesday;
+    if (isAfter(currentDate, wednesday)) {
+      return wednesday;
     }
 
-    return subDays(tuesday, 7);
+    return subDays(wednesday, 7);
   }
 }

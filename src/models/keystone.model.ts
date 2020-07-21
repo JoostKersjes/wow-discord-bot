@@ -7,6 +7,7 @@ import { MessageEmbed, User, Message, TextChannel } from 'discord.js';
 import { Dungeon } from './dungeon.model';
 import { InstanceGroup } from './instance-group.model';
 import { InstanceRole } from './instance-role.model';
+import { format, isToday, isTomorrow } from 'date-fns';
 
 export class Keystone {
   readonly ownerId: string;
@@ -19,7 +20,11 @@ export class Keystone {
   @Type(() => InstanceGroup)
   readonly group: InstanceGroup;
 
+  @Type(() => Date)
+  startTime: Date;
+
   messageId: string | null = null;
+  userDescription: string;
 
   static withData(owner: User, ownerRole: InstanceRole, dungeon: Dungeon, level: number): Keystone {
     return new this(owner.id, dungeon, level, InstanceGroup.newKeystoneGroup(owner, ownerRole));
@@ -30,6 +35,14 @@ export class Keystone {
     this.dungeon = dungeon;
     this.level = level;
     this.group = group;
+  }
+
+  setUserDescription(description: string) {
+    this.userDescription = description;
+  }
+
+  setStartTime(startTime: Date) {
+    this.startTime = startTime;
   }
 
   isFullGroup(): boolean {
@@ -51,7 +64,7 @@ export class Keystone {
       .setTitle(this.getName())
       .setColor(this.isFullGroup() ? '#444444' : '#00ff00')
       .setThumbnail(this.dungeon.image)
-      .setDescription(this.getDescription());
+      .setDescription(this.buildEmbedDescription());
   }
 
   saveAsFile(message: Message): void {
@@ -74,6 +87,19 @@ export class Keystone {
     unlinkSync(Keystone.getSaveFilePath(message));
 
     console.log('deleted keystone');
+  }
+
+  static getMostRecentForUser(user: User, textChannel: TextChannel): Keystone | null {
+    const keystones = this.getSavedKeystonesForChannel(textChannel).filter(
+      key => key.ownerId === user.id,
+    );
+    const messages = textChannel.messages.cache.filter(message =>
+      keystones.map(key => key.messageId).includes(message.id),
+    );
+    messages.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    const lastMessage = messages.first();
+
+    return keystones.find(keystone => lastMessage.id === keystone.messageId);
   }
 
   static getFromFile(message: Message): Keystone | null {
@@ -107,12 +133,16 @@ export class Keystone {
     }
   }
 
-  private getDescription(): string {
+  private buildEmbedDescription(): string {
     let description = this.isFullGroup()
       ? 'This group is full...\n'
       : 'Click the reactions to **sign up!**\n';
 
     description += 'You can click the `X` reaction cancel your registration.\n\n';
+
+    if (this.userDescription) {
+      description += `**Note:** _${this.userDescription}_\n\n`;
+    }
 
     this.group.members.forEach(member => {
       description += `${member.instanceRole.emoji} `;
@@ -120,6 +150,16 @@ export class Keystone {
       description += member.leader ? ` 🚩` : '';
       description += '\n\n';
     });
+
+    if (this.startTime) {
+      const day = isToday(this.startTime)
+        ? 'Today'
+        : isTomorrow(this.startTime)
+        ? 'Tomorrow'
+        : format(this.startTime, 'EEEE');
+
+      description += `**When?** ${day} @ ${format(this.startTime, 'kk:mm')} Server Time`;
+    }
 
     return description;
   }

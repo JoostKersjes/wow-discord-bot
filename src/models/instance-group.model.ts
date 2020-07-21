@@ -20,11 +20,13 @@ export class InstanceGroup {
     this.placeMemberIntoGroup(member);
   }
 
-  cancelSignUp(user: User): void {
+  cancelSignUp(user: User): InstanceRole {
     const index = this.members.findIndex(member => member.userId === user.id);
     const role = this.members[index].instanceRole;
 
-    this.members.splice(index, 1, ...GroupMember.emptySlots(role, 1));
+    const deleted = this.members.splice(index, 1, ...GroupMember.emptySlots(role, 1));
+
+    return deleted.pop().instanceRole;
   }
 
   changeRole(user: User, role: InstanceRole) {

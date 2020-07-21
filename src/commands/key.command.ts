@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+import { Command, ArgumentOptions } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { Keystone, Dungeon, InstanceRole } from '../models';
 
-const allowedArguments = [
+const allowedArguments: ArgumentOptions[] = [
   { id: 'dungeon', type: 'string' },
   { id: 'level', type: 'number' },
   { id: 'role', type: 'string', default: 'dps' },
@@ -57,6 +57,8 @@ export default class KeyCommand extends Command {
 
       await response.react('❌');
     });
+
+    message.delete();
   }
 
   private findDungeon(dungeonArgument: string | null): Dungeon | null {
@@ -72,7 +74,7 @@ export default class KeyCommand extends Command {
       return null;
     }
 
-    return levelArgument >= 35 ? null : Math.max(2, levelArgument);
+    return levelArgument > 30 ? null : Math.max(2, levelArgument);
   }
 
   private findRole(roleArgument: string): InstanceRole {
