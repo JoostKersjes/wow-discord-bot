@@ -1,0 +1,33 @@
+{
+  "name": "wow-discord-bot",
+  "version": "1.0.1",
+  "description": "A TypeScript Discord bot for WoW guilds",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fix-code-style": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoostKersjes/wow-discord-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoostKersjes/wow-discord-bot/issues"
+  },
+  "homepage": "https://github.com/JoostKersjes/wow-discord-bot#readme",
+  "dependencies": {
+    "class-transformer": "^0.2.3",
+    "date-fns": "^2.15.0",
+    "discord-akairo": "^8.0.0",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.24",
+    "prettier": "^2.0.5"
+  }
+}
