@@ -19,6 +19,8 @@ export default class KeyCommand extends Command {
         usage: 'key DUNGEON LEVEL [ROLE]',
         examples: ['key ad 15 tank'],
       },
+      cooldown: 10000,
+      ratelimit: 3,
     });
   }
 

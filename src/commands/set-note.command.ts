@@ -15,6 +15,8 @@ export default class SetNoteCommand extends Command {
         usage: 'set-note NOTE',
         examples: ['set-note Planning on timing this', 'note Pushing after'],
       },
+      cooldown: 10000,
+      ratelimit: 3,
     });
   }
 

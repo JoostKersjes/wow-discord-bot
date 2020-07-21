@@ -13,6 +13,8 @@ export default class DungeonsCommand extends Command {
         usage: 'dungeons',
         examples: ['dungeons'],
       },
+      cooldown: 10000,
+      ratelimit: 3,
     });
   }
 

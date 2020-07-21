@@ -13,6 +13,8 @@ export default class RolesCommand extends Command {
         usage: 'roles',
         examples: ['roles'],
       },
+      cooldown: 10000,
+      ratelimit: 3,
     });
   }
 

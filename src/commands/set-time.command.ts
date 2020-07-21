@@ -19,6 +19,8 @@ export default class SetTimeCommand extends Command {
         usage: 'set-time TIME [WEEKDAY]',
         examples: ['set-time 17:30 wed ', 'time 9:00 tomorrow'],
       },
+      cooldown: 10000,
+      ratelimit: 3,
     });
   }
 

@@ -15,6 +15,8 @@ export default class DeclineCommand extends Command {
         usage: 'decline USERNAME',
         examples: ['decline Dundunn'],
       },
+      cooldown: 3000,
+      ratelimit: 5,
     });
   }
 
