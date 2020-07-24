@@ -1,7 +1,7 @@
 import { Listener } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
 import { GuildChannel } from 'discord.js';
-import { Keystone } from '../models';
+import { Keystone, Log } from '../models';
 
 export default class ReadyListener extends Listener {
   constructor() {
@@ -13,7 +13,7 @@ export default class ReadyListener extends Listener {
   }
 
   exec(): void {
-    console.log(`${this.client.user.tag} is now online`);
+    Log.notice(`${this.client.user.tag} is now online`);
 
     this.loadAllSavedKeystonesIntoCache();
   }
@@ -30,8 +30,6 @@ export default class ReadyListener extends Listener {
         });
       });
     });
-
-    console.log('Loaded all saved keystones into cache');
   }
 
   private isTextChannel(channel: GuildChannel): channel is TextChannel {
