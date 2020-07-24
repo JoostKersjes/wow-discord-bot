@@ -8,6 +8,7 @@ import { Dungeon } from './dungeon.model';
 import { InstanceGroup } from './instance-group.model';
 import { InstanceRole } from './instance-role.model';
 import { format, isToday, isTomorrow } from 'date-fns';
+import { Log } from './log.model';
 
 export class Keystone {
   readonly ownerId: string;
@@ -69,7 +70,7 @@ export class Keystone {
 
   saveAsFile(message: Message): void {
     if (!message) {
-      console.error('Could not save Keystone!');
+      Log.error('Could not save Keystone!');
 
       return;
     }
@@ -80,13 +81,19 @@ export class Keystone {
     mkdirSync(directory, { recursive: true });
     writeFileSync(filePath, serialize(this), { encoding: 'utf-8' });
 
-    console.log('saved keystone');
+    Log.debug(`saved keystone with messageId ${this.messageId}`);
   }
 
   deleteSaveFile(message: Message): void {
-    unlinkSync(Keystone.getSaveFilePath(message));
+    try {
+      unlinkSync(Keystone.getSaveFilePath(message));
+    } catch (error) {
+      Log.error(error.message);
 
-    console.log('deleted keystone');
+      return;
+    }
+
+    Log.debug(`deleted keystone with messageId ${this.messageId}`);
   }
 
   static getMostRecentForUser(user: User, textChannel: TextChannel): Keystone | null {
@@ -104,10 +111,12 @@ export class Keystone {
 
   static getFromFile(message: Message): Keystone | null {
     const filePath = Keystone.getSaveFilePath(message);
-    const fileData = readFileSync(filePath, { encoding: 'utf-8' });
 
-    if (!fileData) {
-      console.error(`Could not find file: ${filePath}`);
+    let fileData: string;
+    try {
+      fileData = readFileSync(filePath, { encoding: 'utf-8' });
+    } catch (error) {
+      Log.error(error.message);
 
       return null;
     }
@@ -128,7 +137,7 @@ export class Keystone {
         deserialize(Keystone, readFileSync(filePath, { encoding: 'utf-8' })),
       );
     } catch (error) {
-      console.error(error.message);
+      Log.error(error.message);
       return [];
     }
   }
@@ -152,13 +161,10 @@ export class Keystone {
     });
 
     if (this.startTime) {
-      const day = isToday(this.startTime)
-        ? 'Today'
-        : isTomorrow(this.startTime)
-        ? 'Tomorrow'
-        : format(this.startTime, 'EEEE');
+      const day = format(this.startTime, 'EEEE');
+      const time = format(this.startTime, 'kk:mm');
 
-      description += `**When?** ${day} @ ${format(this.startTime, 'kk:mm')} Server Time`;
+      description += `**When?** ${day} @ ${time} Server Time`;
     }
 
     return description;
