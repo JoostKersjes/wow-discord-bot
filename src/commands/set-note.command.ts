@@ -20,7 +20,7 @@ export default class SetNoteCommand extends Command {
     });
   }
 
-  exec(message: Message, args: any) {
+  exec(message: Message, args: { description: string | null }): void {
     const { channel } = message;
 
     if (!this.isTextChannel(channel)) {

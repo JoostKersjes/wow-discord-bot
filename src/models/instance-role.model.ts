@@ -1,10 +1,20 @@
 import { InstanceRoles } from './types';
 
 export class InstanceRole {
-  readonly name: string;
-  readonly emoji: string;
-  readonly aliases: string[];
-  readonly color: string;
+  hasAlias(alias: string): boolean {
+    return this.aliases.includes(alias.toLowerCase());
+  }
+
+  constructor(
+    readonly name: string,
+    readonly emoji: string,
+    readonly aliases: string[],
+    readonly color: string,
+  ) {}
+
+  static list(): InstanceRole[] {
+    return [this.tank(), this.healer(), this.damage()];
+  }
 
   static byRole(role: InstanceRoles): InstanceRole {
     switch (role) {
@@ -18,25 +28,10 @@ export class InstanceRole {
     }
   }
 
-  static list(): InstanceRole[] {
-    return [this.tank(), this.healer(), this.damage()];
-  }
-
   static byAlias(alias: string): InstanceRole {
     const roles: InstanceRole[] = [this.tank(), this.healer(), this.damage()];
 
     return roles.find(role => role.hasAlias(alias));
-  }
-
-  hasAlias(alias: string) {
-    return this.aliases.includes(alias.toLowerCase());
-  }
-
-  constructor(name: string, emoji: string, aliases: string[], color: string) {
-    this.name = name;
-    this.emoji = emoji;
-    this.aliases = aliases;
-    this.color = color;
   }
 
   private static tank(): InstanceRole {

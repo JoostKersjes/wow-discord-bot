@@ -8,6 +8,12 @@ const allowedArguments: ArgumentOptions[] = [
   { id: 'role', type: 'string', default: 'dps' },
 ];
 
+interface Arguments {
+  dungeon: string | null;
+  level: number | null;
+  role: string;
+}
+
 export default class KeyCommand extends Command {
   constructor() {
     super('key', {
@@ -24,9 +30,7 @@ export default class KeyCommand extends Command {
     });
   }
 
-  exec(message: Message, args: any) {
-    // TODO: Check if user already has an active key
-
+  exec(message: Message, args: Arguments): Promise<Message> {
     const dungeon = this.findDungeon(args.dungeon);
 
     if (!dungeon) {

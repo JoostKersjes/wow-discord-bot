@@ -18,7 +18,7 @@ export default class RolesCommand extends Command {
     });
   }
 
-  exec(message: Message) {
+  exec(message: Message): void {
     message.util.send(null, this.buildMessage());
   }
 

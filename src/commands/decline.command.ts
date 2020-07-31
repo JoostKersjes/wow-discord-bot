@@ -20,7 +20,7 @@ export default class DeclineCommand extends Command {
     });
   }
 
-  exec(message: Message, args: any) {
+  exec(message: Message, args: { number: number }): void {
     const { channel } = message;
 
     if (!this.isTextChannel(channel)) {
