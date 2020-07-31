@@ -12,7 +12,7 @@ export default class KeystoneRemoveListener extends Listener {
     });
   }
 
-  exec(message: Message) {
+  exec(message: Message): void {
     if (this.skipEvent(message)) {
       return;
     }

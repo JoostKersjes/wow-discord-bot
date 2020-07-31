@@ -1,12 +1,12 @@
 export class Dungeon {
-  static currentKeystoneDungeons(): Dungeon[] {
-    return this.battleForAzeroth();
+  hasAlias(alias: string): boolean {
+    return this.aliases.includes(alias.toLowerCase());
   }
 
   constructor(readonly name: string, readonly aliases: string[], readonly image: string) {}
 
-  hasAlias(alias: string) {
-    return this.aliases.includes(alias.toLowerCase());
+  static currentKeystoneDungeons(): Dungeon[] {
+    return this.battleForAzeroth();
   }
 
   private static battleForAzeroth(): Dungeon[] {

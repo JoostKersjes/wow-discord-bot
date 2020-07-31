@@ -7,7 +7,7 @@ import { MessageEmbed, User, Message, TextChannel } from 'discord.js';
 import { Dungeon } from './dungeon.model';
 import { InstanceGroup } from './instance-group.model';
 import { InstanceRole } from './instance-role.model';
-import { format, isToday, isTomorrow } from 'date-fns';
+import { format } from 'date-fns';
 import { Log } from './log.model';
 
 export class Keystone {
@@ -38,11 +38,11 @@ export class Keystone {
     this.group = group;
   }
 
-  setUserDescription(description: string) {
+  setUserDescription(description: string): void {
     this.userDescription = description;
   }
 
-  setStartTime(startTime: Date) {
+  setStartTime(startTime: Date): void {
     this.startTime = startTime;
   }
 

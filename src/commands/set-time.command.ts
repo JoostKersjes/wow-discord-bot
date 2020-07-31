@@ -1,12 +1,17 @@
 import { Command, ArgumentOptions } from 'discord-akairo';
 import { Message, TextChannel, DMChannel, NewsChannel } from 'discord.js';
-import { Keystone, Day } from '../models';
+import { Keystone, WeekDay } from '../models';
 import { parse } from 'date-fns';
 
 const allowedArguments: ArgumentOptions[] = [
   { id: 'time', type: 'string' },
   { id: 'day', type: 'string', default: 'today' },
 ];
+
+interface Arguments {
+  time: string | null;
+  day: string;
+}
 
 export default class SetTimeCommand extends Command {
   constructor() {
@@ -24,7 +29,7 @@ export default class SetTimeCommand extends Command {
     });
   }
 
-  exec(message: Message, args: any) {
+  exec(message: Message, args: Arguments): Promise<Message> {
     const { channel } = message;
 
     if (!this.isTextChannel(channel)) {
@@ -37,7 +42,7 @@ export default class SetTimeCommand extends Command {
       return this.getArgumentErrorMessage(message, 'time', args.time);
     }
 
-    const day = Day.byString(args.day);
+    const day = WeekDay.byString(args.day);
 
     if (!day) {
       return this.getArgumentErrorMessage(message, 'day', args.day);

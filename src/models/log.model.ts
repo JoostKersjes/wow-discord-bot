@@ -1,28 +1,28 @@
-import { join } from 'path';
-import { Keystone } from './keystone.model';
-import { LogLevels } from './types';
-import { formatISO } from 'date-fns';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+import { formatISO } from 'date-fns';
+
+import { LogLevels } from './types';
 
 export class Log {
   private static logDirectory = join(__dirname, '..', 'logs');
 
-  static error(message: string) {
+  static error(message: string): void {
     console.error(message);
     this.writeLogToFile(message, 'ERROR');
   }
 
-  static warning(message: string) {
+  static warning(message: string): void {
     console.warn(message);
     this.writeLogToFile(message, 'WARNING');
   }
 
-  static notice(message: string) {
+  static notice(message: string): void {
     console.log(message);
     this.writeLogToFile(message, 'NOTICE');
   }
 
-  static debug(message: string) {
+  static debug(message: string): void {
     this.writeLogToFile(message, 'DEBUG');
   }
 
