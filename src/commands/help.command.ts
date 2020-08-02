@@ -1,5 +1,5 @@
-import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
+import { Command } from 'discord-akairo';
 
 export default class HelpCommand extends Command {
   constructor() {

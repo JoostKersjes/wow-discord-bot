@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 
+import dotenv = require('dotenv');
 import { BotClient } from './client';
 
-import dotenv = require('dotenv');
 dotenv.config();
 
 const client: BotClient = new BotClient({

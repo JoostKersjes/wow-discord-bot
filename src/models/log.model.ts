@@ -1,7 +1,6 @@
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { formatISO } from 'date-fns';
-
 import { LogLevels } from './types';
 
 export class Log {

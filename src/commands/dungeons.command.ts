@@ -1,6 +1,5 @@
-import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
-
+import { Command } from 'discord-akairo';
 import { Dungeon } from '../models';
 
 export default class DungeonsCommand extends Command {

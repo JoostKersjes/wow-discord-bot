@@ -1,6 +1,6 @@
+import { GuildChannel } from 'discord.js';
 import { Listener } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
-import { GuildChannel } from 'discord.js';
 import { Keystone, Log } from '../models';
 
 export default class ReadyListener extends Listener {

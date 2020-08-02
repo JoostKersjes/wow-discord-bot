@@ -1,6 +1,5 @@
-import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
-
+import { Command } from 'discord-akairo';
 import { InstanceRole } from '../models';
 
 export default class RolesCommand extends Command {

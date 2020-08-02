@@ -1,10 +1,6 @@
 import { InstanceRoles } from './types';
 
 export class InstanceRole {
-  hasAlias(alias: string): boolean {
-    return this.aliases.includes(alias.toLowerCase());
-  }
-
   constructor(
     readonly name: string,
     readonly emoji: string,
@@ -44,5 +40,9 @@ export class InstanceRole {
 
   private static damage(): InstanceRole {
     return new this('damage', '⚔️', ['⚔️', 'd', 'damage', 'dps', 'ranged', 'melee'], '#6b100d');
+  }
+
+  hasAlias(alias: string): boolean {
+    return this.aliases.includes(alias.toLowerCase());
   }
 }

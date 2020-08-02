@@ -1,5 +1,5 @@
-import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { join } from 'path';
+import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 
 declare module 'discord-akairo' {
   interface AkairoClient {

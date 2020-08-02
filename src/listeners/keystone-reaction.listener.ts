@@ -1,7 +1,7 @@
+import { isAfter, startOfWeek, subDays } from 'date-fns';
 import { Listener } from 'discord-akairo';
-import { User } from 'discord.js';
 import { MessageReaction } from 'discord.js';
-import { isAfter, subDays, startOfWeek } from 'date-fns';
+import { User } from 'discord.js';
 import { Keystone } from '../models';
 
 export default class KeystoneReactionListener extends Listener {

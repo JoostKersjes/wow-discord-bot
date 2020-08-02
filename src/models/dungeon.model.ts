@@ -1,8 +1,4 @@
 export class Dungeon {
-  hasAlias(alias: string): boolean {
-    return this.aliases.includes(alias.toLowerCase());
-  }
-
   constructor(readonly name: string, readonly aliases: string[], readonly image: string) {}
 
   static currentKeystoneDungeons(): Dungeon[] {
@@ -72,5 +68,9 @@ export class Dungeon {
         'https://wow.tools/casc/preview/chash?buildconfig=2b4c11af9a91d3bc71adaaa6c5b43e07&cdnconfig=0333f2438934b3d77820f235e8646c56&filename=interface%2Flfgframe%2Flfgicon-waycrestmanor.blp&contenthash=85d5b8b9db5080463abe042e22ce9510',
       ),
     ];
+  }
+
+  hasAlias(alias: string): boolean {
+    return this.aliases.includes(alias.toLowerCase());
   }
 }

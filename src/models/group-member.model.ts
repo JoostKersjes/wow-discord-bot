@@ -1,5 +1,5 @@
-import { InstanceRole } from './instance-role.model';
 import { Type } from 'class-transformer';
+import { InstanceRole } from './instance-role.model';
 
 export class GroupMember {
   @Type(() => InstanceRole)

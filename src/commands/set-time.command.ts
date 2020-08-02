@@ -1,7 +1,7 @@
-import { Command, ArgumentOptions } from 'discord-akairo';
-import { Message, TextChannel, DMChannel, NewsChannel } from 'discord.js';
-import { Keystone, WeekDay } from '../models';
+import { ArgumentOptions, Command } from 'discord-akairo';
+import { DMChannel, Message, NewsChannel, TextChannel } from 'discord.js';
 import { parse } from 'date-fns';
+import { Keystone, WeekDay } from '../models';
 
 const allowedArguments: ArgumentOptions[] = [
   { id: 'time', type: 'string' },

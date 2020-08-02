@@ -1,5 +1,5 @@
-import { Command, ArgumentOptions } from 'discord-akairo';
-import { Message, TextChannel, NewsChannel, DMChannel } from 'discord.js';
+import { ArgumentOptions, Command } from 'discord-akairo';
+import { DMChannel, Message, NewsChannel, TextChannel } from 'discord.js';
 import { Keystone } from '../models';
 
 const allowedArguments: ArgumentOptions[] = [{ id: 'number', type: 'number' }];

@@ -1,6 +1,6 @@
-import { Command, ArgumentOptions } from 'discord-akairo';
+import { ArgumentOptions, Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { Keystone, Dungeon, InstanceRole } from '../models';
+import { Dungeon, InstanceRole, Keystone } from '../models';
 
 const allowedArguments: ArgumentOptions[] = [
   { id: 'dungeon', type: 'string' },

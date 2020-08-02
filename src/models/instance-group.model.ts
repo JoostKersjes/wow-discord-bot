@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import { User } from 'discord.js';
-
 import { GroupMember } from './group-member.model';
 import { InstanceRole } from './instance-role.model';
 import { Log } from './log.model';
@@ -8,6 +7,32 @@ import { Log } from './log.model';
 export class InstanceGroup {
   @Type(() => GroupMember)
   members: GroupMember[];
+
+  constructor(members: GroupMember[]) {
+    this.members = members;
+  }
+
+  static newKeystoneGroup(leaderUser: User, leaderRole: InstanceRole): InstanceGroup {
+    const leader = GroupMember.withData(leaderRole, leaderUser.id, true);
+
+    return this.emptyKeystoneGroup(leader);
+  }
+
+  private static emptyKeystoneGroup(leader: GroupMember): InstanceGroup {
+    const members = [
+      ...GroupMember.emptySlots(InstanceRole.byRole('tank'), 1),
+      ...GroupMember.emptySlots(InstanceRole.byRole('healer'), 1),
+      ...GroupMember.emptySlots(InstanceRole.byRole('damage'), 3),
+    ];
+
+    const roleIndex = members.findIndex(
+      member => member.instanceRole.name === leader.instanceRole.name,
+    );
+
+    members[roleIndex] = leader;
+
+    return new this(members);
+  }
 
   getLeader(): GroupMember {
     return this.members.find(member => member.leader);
@@ -34,32 +59,6 @@ export class InstanceGroup {
     const deleted = this.members.splice(index, 1, ...GroupMember.emptySlots(role, 1));
 
     return deleted.pop().instanceRole;
-  }
-
-  constructor(members: GroupMember[]) {
-    this.members = members;
-  }
-
-  static newKeystoneGroup(leaderUser: User, leaderRole: InstanceRole): InstanceGroup {
-    const leader = GroupMember.withData(leaderRole, leaderUser.id, true);
-
-    return this.emptyKeystoneGroup(leader);
-  }
-
-  private static emptyKeystoneGroup(leader: GroupMember): InstanceGroup {
-    const members = [
-      ...GroupMember.emptySlots(InstanceRole.byRole('tank'), 1),
-      ...GroupMember.emptySlots(InstanceRole.byRole('healer'), 1),
-      ...GroupMember.emptySlots(InstanceRole.byRole('damage'), 3),
-    ];
-
-    const roleIndex = members.findIndex(
-      member => member.instanceRole.name === leader.instanceRole.name,
-    );
-
-    members[roleIndex] = leader;
-
-    return new this(members);
   }
 
   private placeMemberIntoGroup(member: GroupMember): void {

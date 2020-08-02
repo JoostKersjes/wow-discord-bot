@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "fix-code-style": "prettier --write .",
-    "lint": "eslint . --ext .ts"
+    "lint-fix": "eslint . --ext .ts --fix"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "eslint": "^7.5.0",
+    "eslint-plugin-import": "^2.22.0",
     "prettier": "^2.0.5"
   }
 }

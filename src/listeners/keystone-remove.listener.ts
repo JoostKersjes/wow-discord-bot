@@ -1,6 +1,5 @@
-import { Message } from 'discord.js';
 import { Listener } from 'discord-akairo';
-
+import { Message } from 'discord.js';
 import { Keystone } from '../models';
 
 export default class KeystoneRemoveListener extends Listener {

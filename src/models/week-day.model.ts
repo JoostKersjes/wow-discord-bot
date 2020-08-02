@@ -1,18 +1,6 @@
-import { getDay, addDays } from 'date-fns';
+import { addDays, getDay } from 'date-fns';
 
 export class WeekDay {
-  getDate(): Date {
-    const today = new Date();
-    const dayNumber = getDay(today);
-
-    let dayInterval = this.dayNumber - dayNumber;
-    if (dayInterval < 0) {
-      dayInterval += 7;
-    }
-
-    return addDays(today, dayInterval);
-  }
-
   private constructor(readonly dayNumber: number, readonly name: string) {}
 
   static euRotationWeek(): WeekDay[] {
@@ -58,5 +46,17 @@ export class WeekDay {
     });
 
     return weekDays.shift();
+  }
+
+  getDate(): Date {
+    const today = new Date();
+    const dayNumber = getDay(today);
+
+    let dayInterval = this.dayNumber - dayNumber;
+    if (dayInterval < 0) {
+      dayInterval += 7;
+    }
+
+    return addDays(today, dayInterval);
   }
 }
