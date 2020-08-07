@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/JoostKersjes/wow-discord-bot#readme",
   "dependencies": {
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "date-fns": "^2.15.0",
     "discord-akairo": "^8.0.0",
     "discord.js": "^12.2.0",
