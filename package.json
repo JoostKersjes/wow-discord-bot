@@ -26,18 +26,18 @@
   "homepage": "https://github.com/JoostKersjes/wow-discord-bot#readme",
   "dependencies": {
     "class-transformer": "^0.3.1",
-    "date-fns": "^2.15.0",
-    "discord-akairo": "^8.0.0",
-    "discord.js": "^12.2.0",
+    "date-fns": "^2.16.1",
+    "discord-akairo": "^8.1.0",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "reflect-metadata": "^0.1.13",
     "typescript": "^3.9.7"
   },
   "devDependencies": {
-    "@types/node": "^14.0.24",
+    "@types/node": "^14.14.10",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "eslint": "^7.5.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.2.1"
   }
 }

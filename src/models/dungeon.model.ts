@@ -6,7 +6,52 @@ export class Dungeon {
   constructor(readonly name: string, readonly aliases: string[], readonly image: string) {}
 
   static currentKeystoneDungeons(): Dungeon[] {
-    return this.battleForAzeroth();
+    return this.shadowlands();
+  }
+
+  private static shadowlands(): Dungeon[] {
+    return [
+      new this(
+        'The Necrotic Wake',
+        ['nw', 'tnw', 'necrotic', 'wake'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-necroticwake.blp&contenthash=c6e89e02c4960e7364f3362698cfb9d2',
+      ),
+      new this(
+        'Plaguefall',
+        ['pf', 'plague', 'fall'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-plaguefall.blp&contenthash=5df2f95ab2cad56e9b6c5f51b248374a',
+      ),
+      new this(
+        'Mists of Tirna Scithe',
+        ['ts', 'mts', 'mots', 'mists'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-mistsoftirnascithe.blp&contenthash=f7ee90167724f6e43802e6e49fe5f537',
+      ),
+      new this(
+        'Halls of Atonement',
+        ['ha', 'hoa', 'halls', 'atonement'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-hallsofatonement.blp&contenthash=9c1b63d7cb357031982713e8ad54ed6c',
+      ),
+      new this(
+        'Theatre of Pain',
+        ['tp', 'top', 'theatre', 'pain'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-theaterofpain.blp&contenthash=5bfccdac66f2ba16c1ce68316be57e71',
+      ),
+      new this(
+        'De Other Side',
+        ['os', 'dos', 'side', 'other'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-theotherside.blp&contenthash=ddc9631dd495d1c977ac00ab240ce3fa',
+      ),
+      new this(
+        'Spires of Ascension',
+        ['sa', 'soa', 'spire', 'spires'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-spiresofascension.blp&contenthash=25b0b965e31f926ba34d7083bd827ef2',
+      ),
+      new this(
+        'Sanguine Depths',
+        ['sd', 'depths', 'sanguine'],
+        'https://wow.tools/casc/preview/chash?buildconfig=0160ef95af2b5846ca31d34129d630e9&cdnconfig=861291a81a8b3de73fc547269c4c565d&filename=interface%2Flfgframe%2Flfgicon-sanguinedepths.blp&contenthash=78f15ca1afb092d52526baa5029c74d7',
+      ),
+    ];
   }
 
   private static battleForAzeroth(): Dungeon[] {
