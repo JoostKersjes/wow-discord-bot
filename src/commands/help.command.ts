@@ -36,7 +36,7 @@ export default class HelpCommand extends Command {
     description += `- _dungeon:_ The dungeon of your keystone. See ${this.prefix}dungeons for the options.\n`;
     description += `- _level:_ The level of the keystone. Numerical value. Examples: "6", "15"\n`;
     description += `- _[role:]_ The role you are playing. See ${this.prefix}roles for the options. Defaults to "dps".\n`;
-    description += `Usage: **${this.prefix}key atal 12 tank**\n`;
+    description += `Usage: **${this.prefix}key halls 12 tank**\n`;
     description += `Note: The creator of a keystone can add a 🗑️ reaction to delete it.\n`;
     description += '\n';
 
