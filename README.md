@@ -1,6 +1,8 @@
 # wow-discord-bot
 
-A TypeScript Discord bot for WoW guilds
+A TypeScript Discord bot for WoW guilds.
+
+Updated to Shadowlands with the 2.0.0 release!
 
 ## environment variables
 
@@ -16,3 +18,5 @@ PREFIX=[DEFAULT_BOT_PREFIX]
 
 In the root of the project run `npm install` and `tsc`.
 In the `dist/` folder, run `node bot.js` to start the bot.
+
+Use the `!help` command to get a helpful explanation.

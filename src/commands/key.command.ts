@@ -23,7 +23,7 @@ export default class KeyCommand extends Command {
       description: {
         content: 'Create a new M+ Keystone event',
         usage: 'key DUNGEON LEVEL [ROLE]',
-        examples: ['key ad 15 tank'],
+        examples: ['key nw 5 tank', 'm+ wake 3', 'keystone theatre 8 healer'],
       },
       cooldown: 10000,
       ratelimit: 3,
