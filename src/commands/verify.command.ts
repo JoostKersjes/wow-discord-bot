@@ -39,7 +39,7 @@ export default class VerifyCommand extends Command {
     const roles = guildMember.roles.cache;
     const memberRole = this.getMemberRole(guild);
 
-    if (!roles.array().includes(memberRole)) {
+    if (0 === roles.array().length) {
       this.addRoleToUser(memberRole, guildMember);
     }
 
