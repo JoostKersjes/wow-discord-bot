@@ -77,6 +77,7 @@ export default class KeystoneReactionListener extends Listener {
     return (
       user.bot ||
       message.author.id !== this.client.user.id ||
+      !Keystone.fileExists(message) ||
       isAfter(this.lastResetDate(), message.createdTimestamp)
     );
   }

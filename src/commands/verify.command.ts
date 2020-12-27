@@ -1,4 +1,5 @@
 import { Command, ArgumentOptions } from 'discord-akairo';
+import { GuildMember } from 'discord.js';
 import { NewsChannel } from 'discord.js';
 import { User, Role, Guild } from 'discord.js';
 import { Message, TextChannel } from 'discord.js';
@@ -27,24 +28,26 @@ export default class VerifyCommand extends Command {
 
   exec(message: Message, args: Arguments): void {
     const { characterName } = args;
-    const { author } = message;
+    const { author, guild } = message;
 
     if (!this.isValidCharacterName(characterName)) {
+      message.channel.send(`The given character name "${characterName}" is invalid`);
       return;
     }
 
-    const roles = author.presence.member.roles.cache;
-    const memberRole = this.getMemberRole(message.guild);
+    const guildMember = guild.member(author);
+    const roles = guildMember.roles.cache;
+    const memberRole = this.getMemberRole(guild);
 
     if (!roles.array().includes(memberRole)) {
-      this.addRoleToUser(memberRole, author);
+      this.addRoleToUser(memberRole, guildMember);
     }
 
-    this.createVerificationRequestNotification(author, characterName);
+    this.createVerificationRequestNotification(guild, author, characterName);
   }
 
   isValidCharacterName(name: string): boolean {
-    return name.match(/^[^\W\d_]{2,12}$/) !== null;
+    return name.match(/^[A-Za-zÀ-ÖØ-öø-ÿ]{2,12}$/) !== null;
   }
 
   getMemberRole(guild: Guild): Role {
@@ -56,16 +59,16 @@ export default class VerifyCommand extends Command {
     throw new Error('This server does not have a "Member" role.');
   }
 
-  addRoleToUser(role: Role, author: User): void {
-    author.presence.member.roles.add(role);
+  addRoleToUser(role: Role, guildMember: GuildMember): void {
+    guildMember.roles.add(role);
   }
 
-  createVerificationRequestNotification(user: User, characterName: string): void {
-    const requestsChannel = this.getVerificationRequestsChannel(user.presence.guild);
+  createVerificationRequestNotification(guild: Guild, user: User, characterName: string): void {
+    const requestsChannel = this.getVerificationRequestsChannel(guild);
 
-    requestsChannel.send(`${user} requested to verify:\n> ${characterName}`).then(message => {
-      message.react(':white_check_mark:');
-    });
+    requestsChannel
+      .send(`${user} requested to verify:\n> ${characterName}`)
+      .then(message => message.react('✅'));
   }
 
   getVerificationRequestsChannel(guild: Guild): TextChannel | NewsChannel {

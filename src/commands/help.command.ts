@@ -62,6 +62,13 @@ export default class HelpCommand extends Command {
     description += `Usage: **${this.prefix}time 19:20 tomorrow**\n`;
     description += '\n';
 
+    description += `**${this.prefix}verify**: Verify a wow character to become a Member.\n`;
+    description += `Aliases: _${this.prefix}member_\n`;
+    description += `Arguments:\n`;
+    description += `- _character name:_ The name of your character. Examples: "Rundunn", "zengoon"\n`;
+    description += `Usage: **${this.prefix}verify Rundunn**\n`;
+    description += `Note: This will send a request to the officers to promote your in game character to "Member".`;
+
     return description;
   }
 }

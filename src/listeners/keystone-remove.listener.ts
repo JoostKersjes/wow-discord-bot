@@ -25,6 +25,6 @@ export default class KeystoneRemoveListener extends Listener {
   }
 
   skipEvent(message: Message): boolean {
-    return message.author.id !== this.client.user.id;
+    return message.author.id !== this.client.user.id || !Keystone.fileExists(message);
   }
 }
