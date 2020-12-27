@@ -109,6 +109,12 @@ export class Keystone {
     return keystones.find(keystone => lastMessage.id === keystone.messageId);
   }
 
+  static fileExists(message: Message): boolean {
+    const filePath = Keystone.getSaveFilePath(message);
+
+    return existsSync(filePath);
+  }
+
   static getFromFile(message: Message): Keystone | null {
     const filePath = Keystone.getSaveFilePath(message);
 
